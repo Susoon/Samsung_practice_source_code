@@ -22,6 +22,7 @@
 #include "ns3/internet-module.h"
 #include "ns3/network-module.h"
 #include "ns3/point-to-point-module.h"
+#include "ns3/netanim-module.h"
  
 using namespace ns3;
  
@@ -178,6 +179,12 @@ main(int argc, char* argv[])
  
     // Stop browsing after 30 minutes
     clientApps.Stop(Seconds(simTimeSec));
+
+    AnimationInterface anim("http-example.xml");
+    anim.SetMaxPktsPerTraceFile(10000000);
+
+    anim.SetConstantPosition(nodes.Get(0), 0.0, 100.0);
+    anim.SetConstantPosition(nodes.Get(1), 0.0, 20.0);
  
     Simulator::Run();
     Simulator::Destroy();
