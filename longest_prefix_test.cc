@@ -17,6 +17,12 @@ NodeContainer nodes;
 #define SERVER1 3
 #define SERVER2 4
 
+#define SERVER1_IP "192.168.3.2"
+#define SERVER2_IP "10.1.1.2"
+
+#define CLIENT1 0
+#define CLIENT2 5
+
 void LogRoutingTable(Ptr<Node> node)
 {
     Ptr<Ipv4> ipv4 = node->GetObject<Ipv4>();
@@ -179,21 +185,21 @@ int main(int argc, char *argv[])
     serverApps2.Start(Seconds(1.0));
     serverApps2.Stop(Seconds(10.0));
 
-    UdpEchoClientHelper echoClient1(Ipv4Address("192.168.3.2"), 9);
+    UdpEchoClientHelper echoClient1(Ipv4Address(SERVER1_IP), 9);
     echoClient1.SetAttribute("MaxPackets", UintegerValue(5));
     echoClient1.SetAttribute("Interval", TimeValue(Seconds(1.0)));
     echoClient1.SetAttribute("PacketSize", UintegerValue(1024));
 
-    UdpEchoClientHelper echoClient2(Ipv4Address("10.1.1.2"), 10);
+    UdpEchoClientHelper echoClient2(Ipv4Address(SERVER2_IP), 10);
     echoClient2.SetAttribute("MaxPackets", UintegerValue(5));
     echoClient2.SetAttribute("Interval", TimeValue(Seconds(1.0)));
     echoClient2.SetAttribute("PacketSize", UintegerValue(1024));
 
-    ApplicationContainer clientApps1 = echoClient1.Install(nodes.Get(0));
+    ApplicationContainer clientApps1 = echoClient1.Install(nodes.Get(CLIENT1));
     clientApps1.Start(Seconds(2.0));
     clientApps1.Stop(Seconds(10.0));
 
-    ApplicationContainer clientApps2 = echoClient2.Install(nodes.Get(5));
+    ApplicationContainer clientApps2 = echoClient2.Install(nodes.Get(CLIENT2));
     clientApps2.Start(Seconds(2.5));
     clientApps2.Stop(Seconds(10.0));
 
