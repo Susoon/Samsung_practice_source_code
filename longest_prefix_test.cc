@@ -35,7 +35,9 @@ void LogRoutingTable(Ptr<Node> node)
 				}
 			}
             NS_LOG_INFO("Node " << node->GetId() << " routing table:");
-            routing->PrintRoutingTable(Create<OutputStreamWrapper>(&std::cout));
+			std::ostringstream oss;
+            routing->PrintRoutingTable(Create<OutputStreamWrapper>(&oss));
+			NS_LOG_INFO(oss.str());
         }
         else
         {
